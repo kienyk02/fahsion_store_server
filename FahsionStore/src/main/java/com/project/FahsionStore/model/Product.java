@@ -19,8 +19,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;
-    private String author;
+    private String name;
+    private int isActive;
 
     @Column(columnDefinition = "TEXT")
     private String description;
