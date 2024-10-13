@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,14 +21,38 @@ public class Product {
     private Integer id;
 
     private String name;
-    private int isActive;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     private int price;
+    private int stockQuantity;
+    private boolean isAvailable;
 
     private int type;
+
+    @ElementCollection
+    private List<String> size;
+    @ElementCollection
+    private List<String> color;
+    private String material;
+    private String style;
+    private String gender;
+
+    private Double weight;
+    @Embedded
+    private Dimensions dimensions;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @ElementCollection
+    private List<String> tags;
+
+    private Double discount;
 
     @Lob
     @Column(

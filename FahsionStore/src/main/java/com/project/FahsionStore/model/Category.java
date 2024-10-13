@@ -1,10 +1,13 @@
 package com.project.FahsionStore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -20,4 +23,11 @@ public class Category {
 
     private String categoryName;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    @JsonIgnore
+    private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory")
+    private Set<Category> subCategories;
 }
