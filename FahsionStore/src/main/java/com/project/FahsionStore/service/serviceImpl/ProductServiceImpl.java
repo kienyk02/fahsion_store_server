@@ -22,13 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Product saveProduct(String productString, MultipartFile image) throws IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        Product product = objectMapper.readValue(productString, Product.class);
-
-        product.setImage(image.getBytes());
-
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -54,42 +48,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(int id, String productString, MultipartFile image) throws IOException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        Product product = objectMapper.readValue(productString, Product.class);
-
-        Product productDb = productRepository.findById(id).orElse(null);
-
-        assert productDb != null;
-
-        if (Objects.nonNull(product.getName()) &&
-                !"".equalsIgnoreCase(product.getName())) {
-            productDb.setName(product.getName());
-        }
-
-        if (Objects.nonNull(product.getDescription()) &&
-                !"".equalsIgnoreCase(product.getDescription())) {
-            productDb.setDescription(product.getDescription());
-        }
-
-        if (product.getPrice() != 0) {
-            productDb.setPrice(product.getPrice());
-        }
-
-        if (productDb.getType() != product.getType()) {
-            productDb.setType(product.getType());
-        }
-
-        if (Objects.nonNull(product.getCategories())) {
-            productDb.setCategories(product.getCategories());
-        }
-
-        if (Objects.nonNull(image)) {
-            productDb.setImage(image.getBytes());
-        }
-
-        return productRepository.save(productDb);
+    public Product updateProduct(int id, Product product) {
+        product.setId(id);
+        return productRepository.save(product);
     }
 
     @Override

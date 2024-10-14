@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    public Product saveProduct(String productString, MultipartFile image) throws IOException;
+    public Product saveProduct(Product product);
 
     public List<Product> fetchAllProducts();
 
@@ -19,7 +19,7 @@ public interface ProductService {
 
     public String deleteProductById(int id);
 
-    public Product updateProduct(int id, String productString, MultipartFile image) throws IOException;
+    public Product updateProduct(int id, Product product);
 
     public List<Product> fetchProductsFilterByCategoriesAndPrice(List<Integer> categoryIds, int listCount, int price);
 

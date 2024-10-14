@@ -22,6 +22,9 @@ public class Product {
 
     private String name;
 
+    @ElementCollection
+    private List<String> images;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -40,8 +43,9 @@ public class Product {
     private String gender;
 
     private Double weight;
-    @Embedded
-    private Dimensions dimensions;
+    private Double height;
+    private Double width;
+    private Double depth;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -53,13 +57,6 @@ public class Product {
     private List<String> tags;
 
     private Double discount;
-
-    @Lob
-    @Column(
-            name = "image",
-            columnDefinition = "MEDIUMBLOB"
-    )
-    private byte[] image;
 
     private int clickAfterSuggestByAI;
 
