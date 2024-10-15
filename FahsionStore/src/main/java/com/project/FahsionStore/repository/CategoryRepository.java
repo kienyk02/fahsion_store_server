@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
@@ -18,5 +20,8 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
             "INNER JOIN CategoryHierarchy ch ON c.parent_id = ch.id) " +
             "SELECT id FROM CategoryHierarchy", nativeQuery = true)
     List<Integer> findAllSubCategoryIds(@Param("id") Integer id);
+
+    @Query(value = "SELECT c FROM Category c WHERE c.parentCategory.id=:id")
+    Set<Category> findDirectSubCategory(@Param("id") Integer id);
 
 }

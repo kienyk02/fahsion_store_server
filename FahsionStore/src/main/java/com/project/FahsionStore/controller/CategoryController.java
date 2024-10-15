@@ -26,6 +26,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.fetchAllCategory());
     }
 
+    @GetMapping("categories/list")
+    public ResponseEntity<?> fetchCategoryList() {
+        return ResponseEntity.ok(categoryService.fetchCategoryList());
+    }
+
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> fetchCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(categoryService.fetchCategoryById(id));

@@ -6,8 +6,7 @@ import com.project.FahsionStore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -26,8 +25,21 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> fetchCategoryById(int id) {
-        return categoryRepository.findById(id);
+    public List<Category> fetchCategoryList() {
+        List<Category> categories = new ArrayList<>();
+        categories.addAll(categoryRepository.findDirectSubCategory(2));
+        categories.addAll(categoryRepository.findDirectSubCategory(3));
+        categories.forEach(category -> {
+            category.setSubCategories(categoryRepository.findDirectSubCategory(category.getId()));
+        });
+        return categories;
+    }
+
+    @Override
+    public Category fetchCategoryById(int id) {
+        Category category = categoryRepository.findById(id).orElse(new Category());
+        category.setSubCategories(categoryRepository.findDirectSubCategory(id));
+        return category;
     }
 
     @Override
@@ -39,6 +51,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Integer> findAllSubCategoryIds(int id) {
         return categoryRepository.findAllSubCategoryIds(id);
+    }
+
+    public Set<Category> findDirectSubCategory(int id) {
+        return categoryRepository.findDirectSubCategory(id);
     }
 
 }
