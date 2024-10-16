@@ -24,6 +24,13 @@ public class ProductController {
     public ResponseEntity<?> SaveProduct(
             @RequestBody Product product
     ) {
+        product.getColors().forEach(color -> {
+                    color.getSizes().forEach(size -> {
+                        size.setColor(color);
+                    });
+                    color.setProduct(product);
+                }
+        );
         return ResponseEntity.ok().body(productService.saveProduct(product));
     }
 
@@ -33,6 +40,13 @@ public class ProductController {
             @PathVariable("id") int id,
             @RequestBody Product product
     ) {
+        product.getColors().forEach(color -> {
+                    color.getSizes().forEach(size -> {
+                        size.setColor(color);
+                    });
+                    color.setProduct(product);
+                }
+        );
         return ResponseEntity.ok().body(productService.updateProduct(id, product));
     }
 

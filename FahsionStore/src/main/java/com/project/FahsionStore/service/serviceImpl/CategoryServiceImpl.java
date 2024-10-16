@@ -27,8 +27,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> fetchCategoryList() {
         List<Category> categories = new ArrayList<>();
+        categories.addAll(categoryRepository.findDirectSubCategory(1));
         categories.addAll(categoryRepository.findDirectSubCategory(2));
-        categories.addAll(categoryRepository.findDirectSubCategory(3));
         categories.forEach(category -> {
             category.setSubCategories(categoryRepository.findDirectSubCategory(category.getId()));
         });

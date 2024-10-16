@@ -22,22 +22,19 @@ public class Product {
 
     private String name;
 
-    @ElementCollection
-    private List<String> images;
-
     @Column(columnDefinition = "TEXT")
     private String description;
 
     private int price;
-    private int stockQuantity;
     private boolean isAvailable;
-
     private int type;
 
-    @ElementCollection
-    private List<String> size;
-    @ElementCollection
-    private List<String> color;
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL
+    )
+    private List<Color> colors;
+
     private String material;
     private String style;
     private String gender;
