@@ -66,8 +66,8 @@ public class ProductController {
         return ResponseEntity.ok(productService.searchProducts(keyword));
     }
 
-    @GetMapping("/products/category/{id}")
-    public ResponseEntity<?> getProductsByCategory(@PathVariable("id") int id) {
+    @GetMapping("/products/category/{categoryId}")
+    public ResponseEntity<?> getProductsByCategory(@PathVariable("categoryId") int id) {
         return ResponseEntity.ok().body(productService.getProductsByCategory(id));
     }
 

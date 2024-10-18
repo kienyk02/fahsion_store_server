@@ -26,24 +26,24 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.fetchAllCategory());
     }
 
-    @GetMapping("categories/list")
-    public ResponseEntity<?> fetchCategoryList() {
-        return ResponseEntity.ok(categoryService.fetchCategoryList());
-    }
-
     @GetMapping("/categories/{id}")
     public ResponseEntity<?> fetchCategoryById(@PathVariable int id) {
         return ResponseEntity.ok(categoryService.fetchCategoryById(id));
     }
 
-    @DeleteMapping("categories/{id}")
-    public String deleteCategoryById(@PathVariable int id) {
-        return categoryService.deleteCategoryById(id);
+    @GetMapping("categories/list")
+    public ResponseEntity<?> fetchCategoryList() {
+        return ResponseEntity.ok(categoryService.fetchCategoryList());
     }
 
     @GetMapping("categories/sub/{id}")
-    public ResponseEntity<?> findAllSubCategoryIds(@PathVariable int id) {
+    public ResponseEntity<?> findAllSubCategoryIds(@PathVariable("id") int id) {
         return ResponseEntity.ok(categoryService.findAllSubCategoryIds(id));
+    }
+
+    @DeleteMapping("categories/{id}")
+    public String deleteCategoryById(@PathVariable int id) {
+        return categoryService.deleteCategoryById(id);
     }
 
 }

@@ -14,17 +14,17 @@ import java.util.Set;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query(value = "WITH RECURSIVE CategoryHierarchy AS (" +
-            "SELECT id, parent_id, category_name FROM Categories WHERE id = :id " +
+            "SELECT id, parent_id, category_name FROM categories WHERE id = :id " +
             "UNION ALL " +
-            "SELECT c.id, c.parent_id, c.category_name FROM Categories c " +
+            "SELECT c.id, c.parent_id, c.category_name FROM categories c " +
             "INNER JOIN CategoryHierarchy ch ON c.parent_id = ch.id) " +
             "SELECT id FROM CategoryHierarchy", nativeQuery = true)
     List<Integer> findAllSubCategoryIds(@Param("id") Integer id);
 
     @Query(value = "WITH RECURSIVE CategoryHierarchy AS (" +
-            "SELECT id, parent_id, category_name FROM Categories WHERE id IN :ids " +
+            "SELECT id, parent_id, category_name FROM categories WHERE id IN :ids " +
             "UNION ALL " +
-            "SELECT c.id, c.parent_id, c.category_name FROM Categories c " +
+            "SELECT c.id, c.parent_id, c.category_name FROM categories c " +
             "INNER JOIN CategoryHierarchy ch ON c.parent_id = ch.id) " +
             "SELECT id FROM CategoryHierarchy", nativeQuery = true)
     List<Integer> findAllSubCategoryIdsList(@Param("ids") List<Integer> ids);
