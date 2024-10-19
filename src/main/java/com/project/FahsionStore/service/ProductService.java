@@ -28,9 +28,7 @@ public interface ProductService {
 
     public Product updateProduct(int id, Product product);
 
-    public List<Product> fetchProductsFilterByCategoriesAndPrice(List<Integer> categoryIds, int listCount, int price);
-
-    public List<Product> fetchProductsByTypeWithSize(int id, int quantity);
+    public List<Product> getProductSearchWithFilter(int isAvailable, List<Integer> categoryIds, String keyword, int fromPrice, int toPrice, String sort, Pageable pageable);
 
     public List<Product> getProductsByCategory(int isAvailable, int categoryId);
 

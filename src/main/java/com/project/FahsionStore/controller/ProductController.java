@@ -6,12 +6,14 @@ import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -80,6 +82,32 @@ public class ProductController {
             @RequestParam(value = "limit", defaultValue = "10") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         return ResponseEntity.ok(productService.searchProducts(isAvailable, keyword, pageable));
+    }
+
+    @GetMapping("/products/filter")
+    public ResponseEntity<?> getProductSearchWithFilter(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @RequestParam("categoryIds") List<Integer> categoryIds,
+            @RequestParam(value = "keyword", defaultValue = "") String keyword,
+            @RequestParam("fromPrice") int fromPrice,
+            @RequestParam("toPrice") int toPrice,
+            @RequestParam(value = "sort", defaultValue = "") String sort,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        if (Objects.equals(sort, "ASC")) {
+            pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.ASC, "price"));
+        } else if (Objects.equals(sort, "DESC")) {
+            pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "price"));
+        }
+        return ResponseEntity.ok(productService.getProductSearchWithFilter(
+                isAvailable,
+                categoryIds,
+                keyword,
+                fromPrice,
+                toPrice,
+                sort,
+                pageable));
     }
 
     @GetMapping("/products/sort/sell")

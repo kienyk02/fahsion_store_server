@@ -26,7 +26,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
             "UNION ALL " +
             "SELECT c.id, c.parent_id, c.category_name FROM categories c " +
             "INNER JOIN CategoryHierarchy ch ON c.parent_id = ch.id) " +
-            "SELECT id FROM CategoryHierarchy", nativeQuery = true)
+            "SELECT DISTINCT id FROM CategoryHierarchy", nativeQuery = true)
     List<Integer> findAllSubCategoryIdsList(@Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT c FROM Category c WHERE c.parentCategory.id=:id")

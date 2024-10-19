@@ -66,14 +66,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> fetchProductsFilterByCategoriesAndPrice(List<Integer> categoryIds, int listCount, int price) {
-        return productRepository.findProductsFilterByCategories(categoryIds, listCount, price);
+    public List<Product> getProductSearchWithFilter(int isAvailable, List<Integer> categoryIds, String keyword, int fromPrice, int toPrice, String sort, Pageable pageable) {
+        List<Integer> categoryIds2 = categoryRepository.findAllSubCategoryIdsList(categoryIds);
+        return productRepository.getProductSearchWithFilter(
+                isAvailable,
+                categoryIds2,
+                keyword,
+                fromPrice,
+                toPrice,
+                pageable
+        ).getContent();
     }
 
-    @Override
-    public List<Product> fetchProductsByTypeWithSize(int id, int quantity) {
-        return productRepository.fetchProductsByTypeWithSize(id, quantity);
-    }
 
     @Override
     public List<Product> getProductsByCategory(int isAvailable, int categoryId) {
