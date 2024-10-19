@@ -1,6 +1,7 @@
 package com.project.FahsionStore.service;
 
 import com.project.FahsionStore.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,11 +12,17 @@ public interface ProductService {
 
     public Product saveProduct(Product product);
 
-    public List<Product> fetchAllProducts();
+    public List<Product> fetchAllProducts(int isAvailable);
+
+    public List<Product> fetchAllProducts(int isAvailable, Pageable pageable);
 
     public Optional<Product> fetchProductById(int id);
 
-    public List<Product> searchProducts(String keyword);
+    public List<Product> searchProducts(int isAvailable, String keyword, Pageable pageable);
+
+    public List<Product> findProductsBestSeller(int isAvailable, Pageable pageable);
+
+    public List<Product> findProductsBestDiscount(int isAvailable, Pageable pageable);
 
     public String deleteProductById(int id);
 
@@ -25,5 +32,7 @@ public interface ProductService {
 
     public List<Product> fetchProductsByTypeWithSize(int id, int quantity);
 
-    public List<Product> getProductsByCategory(int categoryId);
+    public List<Product> getProductsByCategory(int isAvailable, int categoryId);
+
+    public List<Product> getProductsByCategory(int isAvailable, int categoryId, Pageable pageable);
 }

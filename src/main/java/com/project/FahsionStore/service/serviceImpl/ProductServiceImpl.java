@@ -1,17 +1,14 @@
 package com.project.FahsionStore.service.serviceImpl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.FahsionStore.model.Product;
 import com.project.FahsionStore.repository.CategoryRepository;
 import com.project.FahsionStore.repository.ProductRepository;
 import com.project.FahsionStore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,8 +24,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> fetchAllProducts() {
-        return productRepository.findAll();
+    public List<Product> fetchAllProducts(int isAvailable) {
+        return productRepository.findAll(isAvailable);
+    }
+
+    @Override
+    public List<Product> fetchAllProducts(int isAvailable, Pageable pageable) {
+        return productRepository.findAllWithPage(isAvailable, pageable).getContent();
     }
 
     @Override
@@ -37,8 +39,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProducts(String keyword) {
-        return productRepository.findByNameLike(keyword);
+    public List<Product> searchProducts(int isAvailable, String keyword, Pageable pageable) {
+        return productRepository.findProductSearch(isAvailable, keyword, pageable).getContent();
+    }
+
+    @Override
+    public List<Product> findProductsBestSeller(int isAvailable, Pageable pageable) {
+        return productRepository.findProductsBestSeller(isAvailable, pageable).getContent();
+    }
+
+    @Override
+    public List<Product> findProductsBestDiscount(int isAvailable, Pageable pageable) {
+        return productRepository.findProductsBestDiscount(isAvailable, pageable).getContent();
     }
 
     @Override
@@ -64,10 +76,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
+    public List<Product> getProductsByCategory(int isAvailable, int categoryId) {
         List<Integer> categoryIds = categoryRepository.findAllSubCategoryIds(categoryId);
 
-        return productRepository.findProductsByCategoryIds(categoryIds);
+        return productRepository.findProductsByCategoryIds(isAvailable, categoryIds);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(int isAvailable, int categoryId, Pageable pageable) {
+        List<Integer> categoryIds = categoryRepository.findAllSubCategoryIds(categoryId);
+
+        return productRepository.findProductsByCategoryIds(isAvailable, categoryIds, pageable).getContent();
     }
 
 }

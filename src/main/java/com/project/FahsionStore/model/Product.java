@@ -26,8 +26,8 @@ public class Product {
     private String description;
 
     private int price;
-    private boolean isAvailable;
-    private int type;
+    private int isAvailable = 1;
+    private int sales;
 
     @OneToMany(
             mappedBy = "product",

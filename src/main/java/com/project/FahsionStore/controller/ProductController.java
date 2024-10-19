@@ -2,7 +2,10 @@ package com.project.FahsionStore.controller;
 
 import com.project.FahsionStore.model.Product;
 import com.project.FahsionStore.service.ProductService;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,8 +55,16 @@ public class ProductController {
 
     /////// GET ///////
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> fetchAllProducts() {
-        return ResponseEntity.ok().body(productService.fetchAllProducts());
+    public ResponseEntity<List<Product>> fetchAllProducts(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "0") int limit) {
+        if (page != 0 && limit != 0) {
+            Pageable pageable = PageRequest.of(page - 1, limit);
+            return ResponseEntity.ok().body(productService.fetchAllProducts(isAvailable, pageable));
+        } else {
+            return ResponseEntity.ok().body(productService.fetchAllProducts(isAvailable));
+        }
     }
 
     @GetMapping("/products/{id}")
@@ -62,13 +73,45 @@ public class ProductController {
     }
 
     @GetMapping("/products/search/{keyword}")
-    public ResponseEntity<?> searchProducts(@PathVariable("keyword") String keyword) {
-        return ResponseEntity.ok(productService.searchProducts(keyword));
+    public ResponseEntity<?> searchProducts(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @PathVariable("keyword") String keyword,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        return ResponseEntity.ok(productService.searchProducts(isAvailable, keyword, pageable));
+    }
+
+    @GetMapping("/products/sort/sell")
+    public ResponseEntity<?> getProductsBestSeller(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        return ResponseEntity.ok().body(productService.findProductsBestSeller(isAvailable, pageable));
+    }
+
+    @GetMapping("/products/sort/discount")
+    public ResponseEntity<?> getProductsBestDiscount(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        return ResponseEntity.ok().body(productService.findProductsBestDiscount(isAvailable, pageable));
     }
 
     @GetMapping("/products/category/{categoryId}")
-    public ResponseEntity<?> getProductsByCategory(@PathVariable("categoryId") int id) {
-        return ResponseEntity.ok().body(productService.getProductsByCategory(id));
+    public ResponseEntity<?> getProductsByCategory(
+            @RequestParam(value = "available", defaultValue = "1") int isAvailable,
+            @PathVariable("categoryId") int id,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "0") int limit) {
+        if (page != 0 && limit != 0) {
+            Pageable pageable = PageRequest.of(page - 1, limit);
+            return ResponseEntity.ok().body(productService.getProductsByCategory(isAvailable, id, pageable));
+        } else {
+            return ResponseEntity.ok().body(productService.getProductsByCategory(isAvailable, id));
+        }
     }
 
     /////// DELETE ///////
