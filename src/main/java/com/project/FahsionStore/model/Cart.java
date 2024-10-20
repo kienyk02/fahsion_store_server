@@ -22,6 +22,16 @@ public class Cart {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private int price;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
+
     private int quantity;
 
     @ManyToOne
