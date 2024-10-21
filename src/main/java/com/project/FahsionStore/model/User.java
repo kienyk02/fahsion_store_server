@@ -28,13 +28,10 @@ public class User {
     )
     private byte[] avatarImage;
 
-    @OneToOne(
-            cascade = CascadeType.ALL
+    @OneToMany(
+            mappedBy = "user"
     )
-    @JoinColumn(
-            name = "address_id"
-    )
-    private Address address;
+    private List<Address> address;
 
     @OneToOne(
             cascade = CascadeType.ALL

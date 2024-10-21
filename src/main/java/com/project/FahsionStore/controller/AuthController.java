@@ -86,10 +86,6 @@ public class AuthController {
         userSetting.setEnableLocationService(0);
         user.setSetting(userSetting);
 
-        Address address = new Address();
-        address.setAddress("Chưa có địa chỉ");
-        user.setAddress(address);
-
         String imgUrl = "";
         if(signUpRequest.getGender().equals("Nam")) imgUrl = "https://img.freepik.com/free-vector/smiling-young-man-illustration_1308-173524.jpg";
         else imgUrl = "https://img.freepik.com/free-vector/young-woman-with-glasses-avatar_1308-174364.jpg?t=st=1728784792~exp=1728788392~hmac=d9ba6ce113cde8c0b5e3c28cf721cc8ea4e9b7ff37608ab1161287f37697f7bf&w=740";
