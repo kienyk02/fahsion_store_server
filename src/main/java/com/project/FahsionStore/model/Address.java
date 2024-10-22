@@ -26,6 +26,8 @@ public class Address {
     private String wardName;
     private String address;
 
+    private int active = 0;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference

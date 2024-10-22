@@ -21,6 +21,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address saveAddress(Address address) {
+        if (address.getActive() == 1) {
+            addressRepository.resetAddressActive(address.getUser().getId());
+        }
         return addressRepository.save(address);
     }
 
