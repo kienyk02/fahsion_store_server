@@ -17,5 +17,6 @@ public class ShipmentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private int type;
     private int price;
 }
